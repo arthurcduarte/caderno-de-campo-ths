@@ -1,0 +1,211 @@
+/* Caderno de Campo, 1933 — layout provisório.
+   Conceito: fichas de papel envelhecido sobre uma mesa escura de repartição.
+   Base: a skin "Papel" do painel de prospecção do Arthur.
+   Para mudar o visual, mexa só neste arquivo e em base.html. */
+:root {
+  --mesa: #110d09;           /* fundo: a mesa à noite */
+  --mesa-luz: #241d13;       /* luz da luminária no topo */
+  --papel: #e7dcc0;          /* ficha */
+  --papel-claro: #efe6cc;
+  --papel-escuro: #dccfaa;   /* aba / etiqueta */
+  --tinta: #231d11;          /* texto */
+  --tinta-suave: #54462d;    /* texto secundário */
+  --linha: #8a7448;          /* linhas de formulário */
+  --sangue: #8e2f21;         /* carimbo, acento */
+  --tinta-clara: #d9c8a2;    /* texto sobre a mesa */
+  --pasta: #d9b5a8;          /* divisória rosada das gavetas */
+  --pasta-claro: #e6c8bd;
+  --pasta-meio: #dfbeb2;
+  --f-maquina: 'Courier Prime', 'Courier New', Courier, monospace;
+  --f-titulo: 'Xanh Mono', 'Courier Prime', 'Courier New', monospace; /* condensada, serifada e mono */
+  --f-texto: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--mesa);
+  background-image: radial-gradient(120% 70% at 50% -10%, var(--mesa-luz) 0%, #150f0a 55%, #0a0705 100%);
+  background-attachment: fixed;
+  color: var(--tinta);
+  font-family: var(--f-maquina);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.mesa {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 28px;
+}
+a { color: var(--sangue); }
+a:focus-visible, summary:focus-visible, button:focus-visible { outline: 2px dashed var(--sangue); outline-offset: 3px; }
+
+/* ---------- Papel ---------- */
+.papel {
+  position: relative;
+  background-color: var(--papel);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.08 0 0 0 0.25 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 12% 16%, rgba(150,120,70,.12), transparent 40%),
+    radial-gradient(circle at 88% 84%, rgba(120,90,50,.13), transparent 44%),
+    linear-gradient(180deg, var(--papel-claro) 0%, #e3d5b1 100%);
+  background-size: 140px 140px, cover, cover, cover;
+  box-shadow: inset 0 0 46px rgba(120,90,50,.20), 0 4px 18px rgba(0,0,0,.6);
+  border-radius: 3px;
+}
+
+/* ---------- Cabeçalho da capa ---------- */
+.capa { color: var(--tinta-clara); display: flex; flex-direction: column; gap: 14px; padding-top: 8px; position: relative; }
+.capa .sobre { text-align: center; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: #9a8a68; margin: 0; }
+.capa h1 { margin: 0; text-align: center; font-family: var(--f-titulo); font-weight: 400; text-transform: uppercase; font-size: clamp(40px, 11vw, 60px); line-height: .95; letter-spacing: .14em; text-wrap: balance; }
+.capa .instrucao { margin: 8px 0 0; font-size: 14px; color: #a89670; font-style: italic; }
+.carimbo {
+  display: inline-block; align-self: flex-start;
+  font-family: var(--f-maquina); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--sangue); border: 2px solid var(--sangue); border-radius: 2px;
+  padding: 4px 10px; transform: rotate(-4deg); opacity: .85;
+}
+/* O carimbo fica no alto do título, cobrindo só a metade de cima, como se tivesse sido batido no papel. */
+.titulo-capa { position: relative; margin-top: 30px; }
+.capa .carimbo { position: absolute; z-index: 2; left: 0; top: -12px; }
+
+/* ---------- Fichário (etiquetas) ---------- */
+.gaveta { display: flex; flex-direction: column; gap: 0; }
+.gaveta h2 { display: flex; align-items: flex-end; margin: 0 0 -10px; font-size: 13.5px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--sangue); }
+/* Divisória de pasta suspensa: aba à esquerda e a borda da pasta atrás das fichas. */
+.gaveta h2 span, .gaveta h2::after {
+  background-color: var(--pasta);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.3 0 0 0 0 0.12 0 0 0 0 0.08 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E"), linear-gradient(180deg, var(--pasta-claro) 0%, var(--pasta) 100%);
+  background-size: 140px 140px, 100% 100%;
+  box-shadow: inset 0 1px 0 rgba(255,245,240,.45);
+}
+.gaveta h2 span { position: relative; padding: 12px 26px 32px; border-radius: 6px 6px 0 0; }
+/* Curva de concordância no canto de dentro, entre a aba e a borda da pasta. */
+.gaveta h2 span::after { content: ''; position: absolute; right: -6px; bottom: 30px; width: 6px; height: 6px;
+  background: radial-gradient(circle at 100% 0, transparent 5.5px, var(--pasta-meio) 6px); }
+.gaveta h2::after { content: ''; flex: 1; height: 30px; margin-left: -1px; border-radius: 0 8px 0 0;
+  /* mesmo trecho do degradê da aba (a borda ocupa a metade de baixo dela), para não marcar emenda */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.3 0 0 0 0 0.12 0 0 0 0 0.08 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E"), linear-gradient(180deg, var(--pasta-meio) 0%, var(--pasta) 100%);
+  box-shadow: none; }
+.etiqueta {
+  margin-top: -6px; position: relative;
+  /* Ficha inteira num só papel: aba e espiada dividem o mesmo fundo contínuo. */
+  background-color: var(--papel-escuro);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.2 0 0 0 0 0.15 0 0 0 0 0.08 0 0 0 0.25 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #e6dab9 0%, #d6c79f 100%);
+  background-size: 140px 140px, 100% 100%;
+  border-radius: 6px 6px 4px 4px;
+  box-shadow: 0 -2px 6px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,250,235,.4);
+  transition: transform .18s ease;
+}
+.etiqueta:first-of-type { margin-top: 0; }
+.etiqueta:hover { transform: translateY(-3px); }
+.etiqueta[open] { transform: translateY(-8px); margin-bottom: 4px; box-shadow: 0 -2px 6px rgba(0,0,0,.35), 0 6px 16px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,250,235,.4); }
+.etiqueta > summary {
+  list-style: none; cursor: pointer; user-select: none;
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 14px 18px 18px;
+}
+.etiqueta > summary::-webkit-details-marker { display: none; }
+.etiqueta .num { font-size: 13px; color: var(--sangue); font-weight: 700; flex: none; font-variant-numeric: tabular-nums; }
+.etiqueta .tit { font-size: 17px; font-weight: 700; flex: 1; min-width: 0; }
+.etiqueta .seta { flex: none; color: var(--tinta-suave); transition: transform .18s ease; }
+.etiqueta[open] .seta { transform: rotate(90deg); }
+.espiada {
+  margin: -4px 18px 0; padding: 14px 0 18px;
+  /* 3/4 para o texto e o botão; o último quarto fica livre para uma imagem. */
+  display: grid; grid-template-columns: 3fr 1fr; gap: 14px;
+  border-top: 2px solid #5f4e2c;
+}
+.espiada .texto { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; min-width: 0; }
+.espiada .lado { min-width: 0; display: flex; justify-content: flex-end; align-items: flex-start; }
+/* Foto da espiada (missoes/img/<slug>.png, moldura 800x1200 com o polaroid na parte de baixo).
+   Medida no mockup do Arthur: ~35% da largura da ficha (mín. 150px, máx. 240px),
+   começando 12px acima do traço, presa à direita e vazando ~10px pela borda e pelo pé da ficha. */
+.etiqueta { container-type: inline-size; }
+.espiada.com-foto { --foto-w: clamp(150px, 35.3cqw, 240px); position: relative; grid-template-columns: 1fr;
+  min-height: calc(var(--foto-w) * 1.5 - 22px); align-content: start; }
+.espiada.com-foto .texto { padding-right: calc(var(--foto-w) * .95 - 16px); }
+.espiada .foto { position: absolute; z-index: 1; top: -12px; right: -28px; width: var(--foto-w); height: auto;
+  pointer-events: none; filter: drop-shadow(0 3px 6px rgba(0,0,0,.25)); }
+.espiada .mini { width: 100%; max-width: 96px; height: auto; border: 2px solid var(--linha); }
+/* Botões: só contorno, como o carimbo. */
+.botao {
+  display: inline-block; flex: none;
+  font-family: var(--f-maquina); font-weight: 700; font-size: 14px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--sangue); background: transparent; text-decoration: none;
+  padding: 7px 12px; border-radius: 2px; border: 2px solid var(--sangue); cursor: pointer;
+}
+.botao:hover { background: rgba(142,47,33,.08); }
+
+/* ---------- Ficha ---------- */
+.voltar { color: var(--tinta-clara); text-decoration: none; font-size: 14px; letter-spacing: .06em; }
+.voltar:hover { color: #f0e2bf; }
+.ficha { padding: 26px 22px 28px; display: flex; flex-direction: column; gap: 18px; }
+@media (min-width: 640px) { .ficha { padding: 34px 40px 38px; } }
+.ficha header { display: flex; flex-direction: column; gap: 8px; border-bottom: 3px solid #5f4e2c; padding-bottom: 16px; }
+.ficha h1 { margin: 0; text-align: center; font-family: var(--f-titulo); font-weight: 400; text-transform: uppercase; font-size: clamp(32px, 8.5vw, 42px); line-height: 1; letter-spacing: .04em; -webkit-text-stroke: .5px currentColor; /* a Xanh Mono só tem um peso: o contorno faz o papel de negrito leve */ text-wrap: balance; }
+.ficha .manchete { margin: 0; font-size: 14px; line-height: 1.45; color: var(--tinta-suave); font-style: italic; }
+.quadro { display: flex; flex-direction: column; gap: 22px; font-size: 16px; }
+/* Cada seção do quadro num box de linha fina, com respiro entre eles. */
+.bloco { border: 2px solid #5f4e2c; border-radius: 2px; padding: 0 0 8px; display: flex; flex-direction: column; gap: 6px; }
+/* Cabeçalho do box: faixa centralizada separada por um traço fino, como num formulário. */
+.ficha .bloco h3 { margin: 0; padding: 9px 16px 8px; border-bottom: 2px solid #5f4e2c; text-align: center; font-size: 15.5px; font-weight: 700; letter-spacing: .16em; -webkit-text-stroke: .3px currentColor; }
+.ficha .bloco > :not(h3) { padding-left: 16px; padding-right: 16px; }
+.quadro > p { margin: 0; font-size: 17px; }
+.ficha h3 {
+  margin: 8px 0 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--sangue);
+}
+.ficha ul { margin: 0; padding: 0; list-style: none; }
+.ficha li { padding: 7px 0; border-bottom: 2px solid var(--linha); }
+.ficha li:last-child { border-bottom: 0; }
+.ficha li strong { font-weight: 700; }
+.quadro li { font-weight: 700; }
+.quadro li strong { color: var(--sangue); }
+
+/* Dossiê */
+.dossie { border-top: 2px solid var(--linha); padding-top: 18px; }
+.dossie > summary { list-style: none; cursor: pointer; display: inline-block; }
+.dossie > summary::-webkit-details-marker { display: none; }
+.dossie[open] > summary { margin-bottom: 8px; }
+.dossie .fechar { display: none; }
+.dossie[open] .abrir { display: none; }
+.dossie[open] .fechar { display: inline; }
+.dossie .corpo { font-family: var(--f-texto); font-size: 18px; line-height: 1.5; display: flex; flex-direction: column; gap: 22px; }
+.dossie .corpo h3 { font-family: var(--f-maquina); }
+.dossie .corpo p { margin: 0; }
+.dossie .corpo em { color: var(--tinta-suave); }
+
+/* ---------- Documento ---------- */
+.registro { display: grid; grid-template-columns: max-content 1fr; gap: 0; margin: 0; font-size: 14px; }
+.registro dt, .registro dd { margin: 0; padding: 6px 0; border-bottom: 2px solid var(--linha); }
+.registro dt { padding-right: 14px; color: var(--tinta-suave); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+.galeria { display: flex; flex-wrap: wrap; gap: 12px; }
+.galeria button { padding: 0; border: 2px solid var(--linha); background: none; cursor: zoom-in; line-height: 0; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+.galeria img { width: 120px; height: auto; }
+.transcricao { font-family: var(--f-texto); font-size: 18px; line-height: 1.5; display: flex; flex-direction: column; gap: 10px; }
+.transcricao p { margin: 0; }
+.transcricao .timbre { font-size: 14px; line-height: 1.35; font-style: italic; color: var(--tinta-suave); }
+.transcricao .timbre b { font-weight: 700; }
+.transcricao blockquote { margin: 0; padding-left: 14px; border-left: 3px solid var(--linha); font-style: italic; }
+.transcricao hr { border: 0; border-top: 2px dashed var(--linha); width: 100%; margin: 6px 0; }
+.sem-imagem { font-size: 14px; color: var(--tinta-suave); font-style: italic; margin: 0; }
+
+/* ---------- Galeria em tela cheia ---------- */
+.lupa { position: fixed; inset: 0; z-index: 50; background: rgba(8,6,4,.94); display: flex; align-items: center; justify-content: center;
+  padding: calc(48px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) calc(56px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px)); }
+.lupa img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 6px 30px rgba(0,0,0,.7); }
+.lupa button { position: absolute; background: none; border: 1px solid #6b5a3a; color: var(--tinta-clara); font-family: var(--f-maquina); font-size: 15px; padding: 8px 12px; cursor: pointer; border-radius: 2px; }
+.lupa .x { top: calc(10px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); }
+.lupa .ant { left: max(12px, env(safe-area-inset-left, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+.lupa .prox { right: max(12px, env(safe-area-inset-right, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+.lupa .cont { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); color: #9a8a68; font-size: 13px; }
+
+.rodape { color: #6f6248; font-size: 12px; text-align: center; letter-spacing: .08em; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
